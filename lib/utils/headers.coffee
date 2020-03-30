@@ -28,7 +28,7 @@ processHeaders = (headers) ->
   if !Array.isArray(headers)
     return headers
   headerInfo = {}
-      
+
   for field,i in headers by 2
     value = headers[i+1]
     fieldLower = field.toLowerCase()
@@ -52,18 +52,19 @@ processHeaders = (headers) ->
       _setValue(headerInfo, 'transferEncoding', value.toLowerCase())
     else
       _setValue(headerInfo, _camelize(field), value)
-  
+
   if headerInfo.objectData?
     if Array.isArray(headerInfo.objectData)
       objectDataArray = headerInfo.objectData
     else
       objectDataArray = [headerInfo.objectData]
+
     objectData = {}
-    for od in headerInfo.objectData
+    for od in objectDataArray
       split = od.indexOf('=')
       _setValue(objectData, _camelize(od.substr(0, split)), od.substr(split+1))
     headerInfo.objectData = objectData
-  
+
   return headerInfo
 
 module.exports.processHeaders = processHeaders

@@ -10,14 +10,16 @@ errors = require('./errors')
 mergeOptions = (args...) ->
   if args.length == 0
     return {}
-  
-  result = {}
+
   # start at the end, so that values from earlier options objects overwrite and have priority
-  for index in [args.length-1..0]
-    options = args[index]
-    for own key of options
+  args = args.reverse();
+
+  result = {}
+  for options in args
+    keys = Object.keys options
+    for key in keys
       result[key] = options[key]
-  
+
   result
 
 
@@ -41,13 +43,13 @@ remapKeys = (obj) ->
 
 normalizeOptions = (queryOptions) ->
   if !queryOptions
-    throw errors.RetsParamError('search', 'queryOptions is required.')
+    throw new errors.RetsParamError('search', 'queryOptions is required.')
   if !queryOptions.searchType
-    throw errors.RetsProcessingError('search', 'searchType is required (ex: Property')
+    throw new errors.RetsProcessingError('search', 'searchType is required (ex: Property')
   if !queryOptions.class
-    throw errors.RetsProcessingError('search', 'class is required (ex: RESI)')
+    throw new errors.RetsProcessingError('search', 'class is required (ex: RESI)')
   if !queryOptions.query
-    throw errors.RetsProcessingError('search', 'query is required (ex: (MatrixModifiedDT=2014-01-01T00:00:00.000+) )')
+    throw new errors.RetsProcessingError('search', 'query is required (ex: (MatrixModifiedDT=2014-01-01T00:00:00.000+) )')
   remapKeys(mergeOptions(queryOptions, _queryOptionsDefaults))
 
 

@@ -173,7 +173,7 @@ getStreamParser = (retsContext, metadataTag, rawData, parserEncoding='UTF-8') ->
 
   parser.on 'error', (err) ->
     errorHandler(new errors.RetsProcessingError(retsContext, "XML parsing error: #{errors.getErrorMessage(err)}"))
-  
+
   parser.on 'end', () ->
     # we remove event listeners upon success, so getting here implies failure
     errorHandler(new errors.RetsProcessingError(retsContext, "Unexpected end of xml stream."))
@@ -183,8 +183,8 @@ getStreamParser = (retsContext, metadataTag, rawData, parserEncoding='UTF-8') ->
   retsContext.responseHandler = responseHandler
   retsContext.retsStream = retsStream
   retsContext
-  
-  
+
+
 module.exports =
   getSimpleParser: getSimpleParser
   getStreamParser: getStreamParser
